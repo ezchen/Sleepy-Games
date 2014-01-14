@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
 		
 		//update the World
 		//should update the entities and tiles
-		world.update(deltaTime);
+		world.update(deltaTime, camera);
 		
 		//Render the World
 		//should handle the rendering of all entities and tiles
