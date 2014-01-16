@@ -14,9 +14,16 @@ public class Floor {
 	
 	protected Vector2 position;
 	
+	public Floor(int width, int height, int yPos) {
+		this.WIDTH = width;
+		this.HEIGHT = height;
+		
+		tiles = new Tile[WIDTH][HEIGHT];
+		position = new Vector2(-width/2, yPos);
+	}
 	public Floor(int width, int height, Vector2 position) {
-		this.WIDTH = WIDTH;
-		this.HEIGHT = HEIGHT;
+		this.WIDTH = width;
+		this.HEIGHT = height;
 		
 		tiles = new Tile[WIDTH][HEIGHT];
 		this.position = position;
@@ -28,5 +35,17 @@ public class Floor {
 				tiles[r][c] = new Tile(true);
 			}
 		}
+	}
+	
+	public Tile[][] getTiles() {
+		return this.tiles;
+	}
+	
+	public Vector2 getPosition() {
+		return position;
+	}
+	
+	public int getHeight() {
+		return HEIGHT;
 	}
 }

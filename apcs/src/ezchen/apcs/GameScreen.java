@@ -1,12 +1,14 @@
 package ezchen.apcs;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-public class GameScreen implements Screen {
+public class GameScreen extends InputAdapter implements Screen {
 
 	//keep a reference to the game incase we want to switch screens
 	//ex. PauseScreen, Menuscreen
@@ -24,6 +26,7 @@ public class GameScreen implements Screen {
 		world = new World();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 15, 10);
+		Gdx.input.setInputProcessor(this);
 	}
 	
 	public void render(float delta) {
@@ -41,6 +44,7 @@ public class GameScreen implements Screen {
 		//Render the World
 		//should handle the rendering of all entities and tiles
 		world.render();
+		
 	}
 
 	@Override
@@ -77,6 +81,23 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean keyDown(int keyCode) {
+		switch(keyCode) {
+		case(Input.Keys.P):
+			//pause
+			break;
+		default:
+			world.keyPressed(keyCode);
+		}
+		return true;
+	}
+	
+	public boolean keyUp(int keyCode) {
+		world.keyUp(keyCode);
+		return true;
 	}
 
 }
