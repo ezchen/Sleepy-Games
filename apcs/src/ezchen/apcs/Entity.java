@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Gdx;
 
-public abstract class Entity extends InputAdapter {
+public abstract class Entity {
 	//width and height of entity
 	protected Vector2 DIMENSION = new Vector2();
 	
@@ -16,6 +16,8 @@ public abstract class Entity extends InputAdapter {
 	protected float JUMP_VELOCITY;
 	//Slows character down if key is not pressed
 	protected float DAMPING;
+	
+	protected Rectangle Bounds;
 	
 	//Animations
 	protected Animation standing;
@@ -46,25 +48,5 @@ public abstract class Entity extends InputAdapter {
 		Jumping,
 		Dying,
 		Punch
-	}
-
-	public boolean keyPressed(int keyCode) {
-		switch(keyCode) {
-		case(Input.Keys.UP):
-			state = State.Jumping;
-			break;
-		case(Input.Keys.LEFT):
-			
-			facesRight = false;
-			break;
-		case(Input.Keys.RIGHT):
-			state = State.Walking;
-			facesRight = true;
-			break;
-		case(Input.Keys.X):
-			
-			break;
-		}
-		return false;
 	}
 }

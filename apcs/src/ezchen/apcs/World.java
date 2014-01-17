@@ -63,6 +63,10 @@ public class World {
 		return this.blockTextures;
 	}
 	
+	public Player getPlayer() {
+		return player;
+	}
+	
 	// handle input
 	public void keyPressed(int keyCode) {
 		player.keyPressed(keyCode);

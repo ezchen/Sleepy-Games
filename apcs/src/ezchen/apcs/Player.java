@@ -1,14 +1,11 @@
 package ezchen.apcs;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Keys;
-
-import ezchen.apcs.Entity.State;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Player extends Entity {
 	
-	private float ACCELERATION = 2f;
+	private float ACCELERATION = 25f;
 	private float GRAVITY = .5f;
 	private float MAX_FALLSPEED = .5f;
 	private boolean upPressed = false;
@@ -18,16 +15,24 @@ public class Player extends Entity {
 	
 	
 	public Player() {
-		DIMENSION.x = 1;
-		DIMENSION.y = 1;
-		MAX_VELOCITY = 10f;
-		JUMP_VELOCITY = 15f;
-		DAMPING = .9f;
-		state = State.Standing;
-		facesRight = false;
+		
+		bounds = new Rectangle(0, 6, .5f, .5f);
+		
 		position.x = 0;
 		position.y = 6;
+		
+		DIMENSION.x = 1;
+		DIMENSION.y = 1;
+		
+		MAX_VELOCITY = 100f;
+		JUMP_VELOCITY = 15f;
+		DAMPING = .90f;
 		ACCELERATION = 2f;
+		
+		state = State.Standing;
+		
+		facesRight = false;
+		
 		grounded = false;
 	}
 	
@@ -39,10 +44,7 @@ public class Player extends Entity {
 		stateTime += deltaTime;
 		
 		//update position
-		position.x += velocity.x;
-		if (!grounded) {
-			position.y -= .01;
-		}
+		tryMove(deltaTime);
 	}
 	
 	//handles collision detection, moves player
@@ -52,8 +54,9 @@ public class Player extends Entity {
 		
 		position.x += velocity.x;
 		if (!grounded) {
-			position.y += -.0001f;
+			position.y += velocity.y;
 		}
+		bounds.setPosition(position);
 		velocity.scl(1/deltaTime);
 	}
 	
@@ -72,13 +75,13 @@ public class Player extends Entity {
 		}
 		// walk
 		if (leftPressed) {
-			velocity.x -= ACCELERATION/10;
+			velocity.x -= ACCELERATION;
 			if (grounded)
 				state = state.Walking;
 			facesRight = false;
 		}
 		if (rightPressed) {
-			velocity.x += ACCELERATION/10;
+			velocity.x += ACCELERATION;
 			if (grounded)
 				state = state.Walking;
 			facesRight = true;
@@ -91,12 +94,17 @@ public class Player extends Entity {
 			velocity.x = 0;
 			state = state.Standing;
 		}
+		if (!leftPressed && !rightPressed)
+			velocity.x *= DAMPING;
 		
 		velocity.y -= GRAVITY;
 	}
 	
+	public Rectangle getBounds() {
+		return bounds;
+	}
+	
 	//used to update state
-	@Override
 	public boolean keyPressed(int keyCode) {
 		switch(keyCode) {
 		case(Input.Keys.W):
