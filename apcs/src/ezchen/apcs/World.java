@@ -11,7 +11,7 @@ public class World {
 	
 	private Player player;
 	private ArrayList<Floor> floors;
-	private ArrayList<TextureRegion> blocks;
+	private TextureRegion[] blockTextures = Resources.regions;
 	private static Vector2 position;
 	
 	public World() {
@@ -23,22 +23,25 @@ public class World {
 	public void create() {
 		floors.add(new Floor(15,4,10));
 		floors.add(new Floor(15,4,6));
-		//generate();
+		floors.add(new Floor(15,4,2));
+		floors.add(new Floor(15,4,-2));
+		floors.add(new Floor(15,4,-6));
 	}
 	public void update(float deltaTime, OrthographicCamera camera) {
-		/*
-		if (camera.position.y < floors.get(1).position.y ) {
+		if (camera.position.y + camera.viewportHeight/2 < floors.get(2).position.y ) {
 			floors.remove(0);
+			System.out.println("deleting");
 		}
 		
-		if (camera.position.y + camera.viewportHeight > floors.get(floors.size()-2).position.y ) {
-			generate();
+		if (camera.position.y - camera.viewportHeight/2 < floors.get(floors.size()-2).position.y ) {
+			addFloor();
+			System.out.println("adding floor");
 		}
 		
+		player.update(deltaTime);
 		camera.position.y = player.position.y;
 		camera.position.x = player.position.x;
-		*/
-		player.update(deltaTime);
+		camera.update();
 	}
 
 	//rendering
@@ -47,13 +50,17 @@ public class World {
 	
 	//level generation
 	public void addFloor() {
-		position = floors.get(floors.size()-1).getPosition();
-		position.y -= floors.get(floors.size()-1).getHeight();
-		floors.add(new Floor(15, 4, position));
+		int yPos = (int) (floors.get(floors.size()-1).getPosition().y - floors.get(floors.size()-1).getHeight());
+		floors.add(new Floor(15, 4, yPos));
 	}
 	
+	//getters
 	public ArrayList<Floor> getFloors() {
 		return this.floors;
+	}
+	
+	public TextureRegion[] getBlockTextures() {
+		return this.blockTextures;
 	}
 	
 	// handle input
@@ -63,6 +70,11 @@ public class World {
 	
 	public void keyUp(int keyCode) {
 		player.keyUp(keyCode);
+	}
+	
+	public void createDemoWorld() {
+		floors.add(new Floor(15,4,10));
+		floors.add(new Floor(15,4,6));
 	}
 }
 	

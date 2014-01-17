@@ -10,6 +10,7 @@ public class Player extends Entity {
 	
 	private float ACCELERATION = 2f;
 	private float GRAVITY = .5f;
+	private float MAX_FALLSPEED = .5f;
 	private boolean upPressed = false;
 	private boolean leftPressed = false;
 	private boolean rightPressed = false;
@@ -24,8 +25,8 @@ public class Player extends Entity {
 		DAMPING = .9f;
 		state = State.Standing;
 		facesRight = false;
-		position.x = 20;
-		position.y = 5;
+		position.x = 0;
+		position.y = 6;
 		ACCELERATION = 2f;
 		grounded = false;
 	}
@@ -40,7 +41,7 @@ public class Player extends Entity {
 		//update position
 		position.x += velocity.x;
 		if (!grounded) {
-			position.y += velocity.y;
+			position.y -= .01;
 		}
 	}
 	
@@ -51,7 +52,7 @@ public class Player extends Entity {
 		
 		position.x += velocity.x;
 		if (!grounded) {
-			position.y += velocity.y;
+			position.y += -.0001f;
 		}
 		velocity.scl(1/deltaTime);
 	}
@@ -104,7 +105,7 @@ public class Player extends Entity {
 		case(Input.Keys.A):
 			leftPressed = true;
 			break;
-		case(Input.Keys.RIGHT):
+		case(Input.Keys.D):
 			rightPressed = true;
 			break;
 		case(Input.Keys.P):
@@ -122,7 +123,7 @@ public class Player extends Entity {
 		case(Input.Keys.A):
 			leftPressed = false;
 			break;
-		case(Input.Keys.R):
+		case(Input.Keys.D):
 			rightPressed = false;
 			break;
 		case(Input.Keys.P):

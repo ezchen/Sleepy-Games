@@ -18,27 +18,30 @@ public class Floor {
 		this.WIDTH = width;
 		this.HEIGHT = height;
 		
-		tiles = new Tile[WIDTH][HEIGHT];
-		position = new Vector2(-width/2, yPos);
+		tiles = new Tile[HEIGHT][WIDTH];
+		position = new Vector2(0, yPos);
+		generate();
 	}
+	
 	public Floor(int width, int height, Vector2 position) {
 		this.WIDTH = width;
 		this.HEIGHT = height;
 		
-		tiles = new Tile[WIDTH][HEIGHT];
+		tiles = new Tile[HEIGHT][WIDTH];
 		this.position = position;
+		generate();
 	}
 	
 	public void generate() {
 		for (int r = 0; r < tiles.length; r = r + 2) {
 			for (int c = 0; c < tiles[r].length; c++) {
-				tiles[r][c] = new Tile(true);
+				tiles[r][c] = new Tile(true, new Vector2(position.x + c, position.y - r ));
 			}
 		}
 	}
 	
 	public Tile[][] getTiles() {
-		return this.tiles;
+		return tiles;
 	}
 	
 	public Vector2 getPosition() {

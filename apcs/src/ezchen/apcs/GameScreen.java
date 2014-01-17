@@ -7,13 +7,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameScreen extends InputAdapter implements Screen {
 
 	//keep a reference to the game incase we want to switch screens
 	//ex. PauseScreen, Menuscreen
+	
 	private Apcs game;
+	
+	private SpriteBatch spriteBatch;
+	
 	private World world;
+	
+	private WorldRenderer renderer;
+	
 	private OrthographicCamera camera;
 	
 	//Allows us to draw text
@@ -21,11 +29,19 @@ public class GameScreen extends InputAdapter implements Screen {
 	
 	public GameScreen(Apcs game) {
 		this.game = game;
-		//defaults to arial 15pt.
+		
+		//defaults to arial
 		font = new BitmapFont();
+		
 		world = new World();
+		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 15, 10);
+		camera.update();
+		
+		renderer = new WorldRenderer(world);
+		renderer.setView(camera);
+		
 		Gdx.input.setInputProcessor(this);
 	}
 	
@@ -39,18 +55,18 @@ public class GameScreen extends InputAdapter implements Screen {
 		
 		//update the World
 		//should update the entities and tiles
+		renderer.setView(camera);
 		world.update(deltaTime, camera);
 		
 		//Render the World
 		//should handle the rendering of all entities and tiles
-		world.render();
+		renderer.setView(camera);
+		renderer.render();
 		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
