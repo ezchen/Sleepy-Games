@@ -11,6 +11,7 @@ public abstract class Entity {
 	//Velocity
 	protected float MAX_VELOCITY;
 	protected float JUMP_VELOCITY;
+	
 	//Slows character down if key is not pressed
 	protected float DAMPING;
 	

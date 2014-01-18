@@ -15,8 +15,8 @@ public class Floor {
 	protected Vector2 position;
 	
 	public Floor(int width, int height, int yPos) {
-		this.WIDTH = width;
-		this.HEIGHT = height;
+		WIDTH = width;
+		HEIGHT = height;
 		
 		tiles = new Tile[HEIGHT][WIDTH];
 		position = new Vector2(0, yPos);

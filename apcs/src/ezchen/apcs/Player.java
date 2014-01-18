@@ -5,13 +5,16 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Player extends Entity {
 	
+	//Velocity/Acceleration
 	private float ACCELERATION = 25f;
 	private float GRAVITY = .5f;
 	private float MAX_FALLSPEED = .5f;
+	
+	//keys
 	private boolean upPressed = false;
 	private boolean leftPressed = false;
 	private boolean rightPressed = false;
-	private boolean pPressed = false;
+	private boolean kPressed = false;
 	
 	
 	public Player() {
@@ -69,7 +72,7 @@ public class Player extends Entity {
 			else
 				velocity.y += ACCELERATION;
 			if (grounded) {
-				state = state.Jumping;
+				state = State.Jumping;
 				grounded = false;
 			}
 		}
@@ -77,13 +80,13 @@ public class Player extends Entity {
 		if (leftPressed) {
 			velocity.x -= ACCELERATION;
 			if (grounded)
-				state = state.Walking;
+				state = State.Walking;
 			facesRight = false;
 		}
 		if (rightPressed) {
 			velocity.x += ACCELERATION;
 			if (grounded)
-				state = state.Walking;
+				state = State.Walking;
 			facesRight = true;
 		}
 		
@@ -92,7 +95,7 @@ public class Player extends Entity {
 		
 		if(Math.abs(velocity.x) < 1 && grounded) {
 			velocity.x = 0;
-			state = state.Standing;
+			state = State.Standing;
 		}
 		if (!leftPressed && !rightPressed)
 			velocity.x *= DAMPING;
@@ -116,8 +119,8 @@ public class Player extends Entity {
 		case(Input.Keys.D):
 			rightPressed = true;
 			break;
-		case(Input.Keys.P):
-			pPressed = true;
+		case(Input.Keys.K):
+			kPressed = true;
 			break;
 		}
 		return true;
@@ -134,8 +137,8 @@ public class Player extends Entity {
 		case(Input.Keys.D):
 			rightPressed = false;
 			break;
-		case(Input.Keys.P):
-			pPressed = false;
+		case(Input.Keys.K):
+			kPressed = false;
 			break;
 		}
 		return true;
