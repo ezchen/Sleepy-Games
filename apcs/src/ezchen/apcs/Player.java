@@ -19,13 +19,13 @@ public class Player extends Entity {
 	
 	public Player() {
 		
-		bounds = new Rectangle(0, 6, .5f, .5f);
+		DIMENSION.x = 20;
+		DIMENSION.y = 30;
+		
+		bounds = new Rectangle(0, 6, 20/16f, 30/16f);
 		
 		position.x = 0;
 		position.y = 6;
-		
-		DIMENSION.x = 1;
-		DIMENSION.y = 1;
 		
 		MAX_VELOCITY = 100f;
 		JUMP_VELOCITY = 15f;
