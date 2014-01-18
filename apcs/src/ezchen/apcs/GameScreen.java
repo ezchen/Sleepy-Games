@@ -33,11 +33,12 @@ public class GameScreen extends InputAdapter implements Screen {
 		//defaults to arial
 		font = new BitmapFont();
 		
-		world = new World();
-		
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 15, 10);
+		camera.setToOrtho(false, 18, 12);
+		camera.position.x = camera.viewportWidth / 2;
 		camera.update();
+		
+		world = new World((int)(camera.viewportWidth * 3/2f));
 		
 		renderer = new WorldRenderer(world);
 		renderer.setView(camera);
@@ -55,7 +56,6 @@ public class GameScreen extends InputAdapter implements Screen {
 		
 		//update the World
 		//should update the entities and tiles
-		renderer.setView(camera);
 		world.update(deltaTime, camera);
 		
 		//Render the World

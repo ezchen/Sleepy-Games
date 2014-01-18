@@ -1,11 +1,8 @@
 package ezchen.apcs;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.Gdx;
 
 public abstract class Entity {
 	//width and height of entity
