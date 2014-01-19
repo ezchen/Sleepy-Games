@@ -55,7 +55,7 @@ public class Floor {
 		int numHoles = (int) (1 + (2 * Math.random()));
 		
 		for (; numHoles > 0; numHoles--) {
-			int holePosition = (int) (2 + ((WIDTH - 3) * Math.random()));
+			int holePosition = (int) (1 + ((WIDTH - 3) * Math.random()));
 			setTile(tiles.length-1, holePosition, null);
 			setTile(tiles.length-1, holePosition+1, null);
 		}
