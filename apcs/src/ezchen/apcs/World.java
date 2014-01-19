@@ -56,6 +56,13 @@ public class World {
 		System.out.println(i);
 		return floors.get(i-1);
 	}
+	
+	public Floor findPreviousFloor(Player player) {
+		int i = 0;
+		while (player.position.y < floors.get(i).getPosition().y)
+			i++;
+		return floors.get(i-2);
+	}
 
 	//rendering
 	public void render() {

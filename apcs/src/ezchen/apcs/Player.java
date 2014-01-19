@@ -22,6 +22,7 @@ public class Player extends Entity {
 	private boolean rightPressed = false;
 	private boolean kPressed = false;
 	
+	ArrayList<Tile> a = new ArrayList<Tile>();
 	
 	public Player(World world) {
 		this.world = world;
@@ -60,8 +61,7 @@ public class Player extends Entity {
 	
 	//handles collision detection, moves player
 	public void tryMove(float deltaTime) {
-		//allows movement based on time
-		ArrayList<Tile> a = new ArrayList<Tile>();
+		a.clear();
 		
 		Floor floor = world.findFloor(this);
 		
@@ -75,9 +75,7 @@ public class Player extends Entity {
 			c = (int)(Math.floor(position.x + velocity.x));
 		}
 		
-		//bottom of the character
 		r2 = (int)((floor.position.y - Math.floor(position.y)) % 6)+1;
-		//top of the character
 		r1 = (int)(((floor.position.y - Math.floor(position.y + bounds.height))) % 6) + 1;
 		if (r1 < 6)
 			a.add(floor.getTiles()[r1][c]);
@@ -102,7 +100,7 @@ public class Player extends Entity {
 		position.x += velocity.x;
 		bounds.x = position.x;
 		
-		a = collisionTilesY(world.findFloor(this));
+		a = collisionTilesY(floor);
 		testBounds.y += velocity.y;
 		for (Tile t : a) {
 			if (t != null) {
@@ -165,14 +163,16 @@ public class Player extends Entity {
 		ArrayList<Tile> a = new ArrayList<Tile>();
 		
 		//tiles underneath the player
-		int row = (int) (Math.abs((floor.position.y - Math.floor(position.y)) + 1));
-		int column = (int) (Math.floor(position.x));
-		int column2 = (int) (Math.floor(position.x + bounds.width));
-		if (row < 6) {
-			a.add(floor.getTiles()[row][column]);
-			if (column != column2 && column2 <= 26) {
-				a.add(floor.getTiles()[row][column2]);
-			}	
+		if (velocity.y <= 0) {
+			int row = (int) (Math.abs((floor.position.y - Math.floor(position.y)) + 1));
+			int column = (int) (Math.floor(position.x));
+			int column2 = (int) (Math.floor(position.x + bounds.width));
+			if (row < 6) {
+				a.add(floor.getTiles()[row][column]);
+				if (column != column2 && column2 <= 26) {
+					a.add(floor.getTiles()[row][column2]);
+				}	
+			}
 		}
 		return a;
 	}
