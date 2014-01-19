@@ -2,30 +2,30 @@ package ezchen.apcs;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 
 public class World {
+	
+	private int WIDTH;
 	
 	private Player player;
 	private ArrayList<Floor> floors;
 	private TextureRegion[] blockTextures = Resources.regions;
-	private static Vector2 position;
 	
-	public World() {
+	public World(int width) {
+		WIDTH = width;
 		player = new Player();
 		floors = new ArrayList<Floor>();
 		create();
 	}
 	
 	public void create() {
-		floors.add(new Floor(15,4,10));
-		floors.add(new Floor(15,4,6));
-		floors.add(new Floor(15,4,2));
-		floors.add(new Floor(15,4,-2));
-		floors.add(new Floor(15,4,-6));
+		floors.add(new Floor(WIDTH,6,10));
+		floors.add(new Floor(WIDTH,6,6));
+		floors.add(new Floor(WIDTH,6,2));
+		floors.add(new Floor(WIDTH,6,-2));
+		floors.add(new Floor(WIDTH,6,-6));
 	}
 	public void update(float deltaTime, OrthographicCamera camera) {
 		if (camera.position.y + camera.viewportHeight/2 < floors.get(2).position.y ) {
@@ -40,7 +40,9 @@ public class World {
 		
 		player.update(deltaTime);
 		camera.position.y = player.position.y;
-		camera.position.x = player.position.x;
+		
+		if (!(player.position.x - camera.viewportWidth/2 <= 0 || player.position.x + camera.viewportWidth/2 >= WIDTH))
+				camera.position.x = player.position.x;
 		camera.update();
 	}
 
@@ -51,7 +53,7 @@ public class World {
 	//level generation
 	public void addFloor() {
 		int yPos = (int) (floors.get(floors.size()-1).getPosition().y - floors.get(floors.size()-1).getHeight());
-		floors.add(new Floor(15, 4, yPos));
+		floors.add(new Floor(WIDTH, 6, yPos));
 	}
 	
 	//getters
@@ -61,6 +63,10 @@ public class World {
 	
 	public TextureRegion[] getBlockTextures() {
 		return this.blockTextures;
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 	
 	// handle input

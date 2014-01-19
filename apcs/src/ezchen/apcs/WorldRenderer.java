@@ -11,6 +11,8 @@ public class WorldRenderer {
 
 	private World world;
 	
+	private Player player;
+	
 	private float width;
 	private float height;
 	
@@ -25,6 +27,7 @@ public class WorldRenderer {
 	
 	public WorldRenderer(World world) {
 		this.world = world;
+		player = world.getPlayer();
 		this.spriteBatch = new SpriteBatch();
 		viewBounds = new Rectangle();
 	}
@@ -55,6 +58,9 @@ public class WorldRenderer {
 		debug();
 	}
 	
+	public void renderPlayer() {
+	}
+	
 	public void debug() {
 		debugRenderer.begin(ShapeType.Line);
 		for (Floor floor : world.getFloors()) {
@@ -70,6 +76,8 @@ public class WorldRenderer {
 				}
 			}
 		}
+		Rectangle rect = player.getBounds();
+		debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
 		debugRenderer.end();
 	}
 	
