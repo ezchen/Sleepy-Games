@@ -63,10 +63,36 @@ public class Player extends Entity {
 	public void tryMove(float deltaTime) {
 		a.clear();
 		
-		Floor floor = world.findFloor(this);
+		Floor floor = world.findPreviousFloor(this);
 		
 		velocity.scl(deltaTime);
 		
+		//top collisions
+		testBounds.set(bounds);
+		if (velocity.y > 0) {
+			int row = 5;
+			int column = (int) (Math.floor(position.x));
+			int column2 = (int) (Math.floor(position.x + bounds.width));
+			a.add(floor.getTiles()[row][column]);
+			if (column != column2 && column2 <= 26) {
+				a.add(floor.getTiles()[row][column2]);
+			}
+		
+			for (Tile t : a) {
+				if (t != null) {
+					if (testBounds.overlaps(t.getBounds())) {
+						velocity.y = 0;
+						position.y = t.getBounds().y - bounds.height - .01f;
+						break;
+					}
+				}
+			}
+			
+			a.clear();
+		}
+		
+		//horizontal collisions
+		floor = world.findFloor(this);
 		int c, r1, r2;
 		
 		if (velocity.x > 0) {
@@ -99,7 +125,9 @@ public class Player extends Entity {
 		}
 		position.x += velocity.x;
 		bounds.x = position.x;
+		testBounds.set(bounds);
 		
+		//bottom collisions
 		a = collisionTilesY(floor);
 		testBounds.y += velocity.y;
 		for (Tile t : a) {

@@ -61,6 +61,9 @@ public class WorldRenderer {
 	public void renderPlayer() {
 	}
 	
+	public void renderEntities() {
+	}
+	
 	public void debug() {
 		debugRenderer.begin(ShapeType.Line);
 		for (Floor floor : world.getFloors()) {
