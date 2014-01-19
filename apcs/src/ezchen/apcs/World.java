@@ -15,18 +15,20 @@ public class World {
 	
 	public World(int width) {
 		WIDTH = width;
-		player = new Player();
+		player = new Player(this);
+		player.position.x = 5;
+		player.position.y = -5;
 		floors = new ArrayList<Floor>();
 		create();
 	}
 	
 	public void create() {
 		floors.add(new Floor(WIDTH,6,10));
-		floors.add(new Floor(WIDTH,6,6));
-		floors.add(new Floor(WIDTH,6,2));
+		floors.add(new Floor(WIDTH,6,4));
 		floors.add(new Floor(WIDTH,6,-2));
-		floors.add(new Floor(WIDTH,6,-6));
+		floors.add(new Floor(WIDTH,6,-8));
 	}
+	
 	public void update(float deltaTime, OrthographicCamera camera) {
 		if (camera.position.y + camera.viewportHeight/2 < floors.get(2).position.y ) {
 			floors.remove(0);
@@ -44,6 +46,15 @@ public class World {
 		if (!(player.position.x - camera.viewportWidth/2 <= 0 || player.position.x + camera.viewportWidth/2 >= WIDTH))
 				camera.position.x = player.position.x;
 		camera.update();
+	}
+	
+	public Floor findFloor(Player player) {
+		int i = 0;
+		while (player.position.y < floors.get(i).getPosition().y)
+			i++;
+		
+		System.out.println(i);
+		return floors.get(i-1);
 	}
 
 	//rendering

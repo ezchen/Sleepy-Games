@@ -2,11 +2,11 @@ package ezchen.apcs;
 
 import ezchen.apcs.Entity.State;
 
-public class Enemy extends Entity {
+public abstract class Enemy extends Entity {
 	protected boolean seesPlayer;
 	private int type;
 	public static Enemy makeEnemy(int yPos){
-		Enemy e = new Enemy();
+		Enemy e;
 		int t = (int) (2*Math.random());
 		e = (t == 1 ? new Shooter() : new Runner());
 		e.type = t;
@@ -20,10 +20,10 @@ public class Enemy extends Entity {
 	}
 	public void update(float deltaTime){
 		//update seesPlayer
-		if(type==1)
-			updateS(deltaTime);
-		else
-			updateR(deltaTime);
+		//if(type==1)
+			//updateS(deltaTime);
+		//else
+			//updateR(deltaTime);
 		position.x += velocity.x + deltaTime;
 		position.y += velocity.y + deltaTime;
 	}

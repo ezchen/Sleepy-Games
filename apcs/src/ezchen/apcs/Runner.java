@@ -1,11 +1,11 @@
 package ezchen.apcs;
 
-import ezchen.apcs.Entity.State;
+import com.badlogic.gdx.math.Vector2;
 
 public class Runner extends Enemy {
-	MAX_VELOCITY = 1; /* edit */
 	private float ACCELERATION = 0.1f; /* edit */
 	public Runner(){
+		MAX_VELOCITY = 1f; /* edit */
 		velocity = new Vector2(0, 0);
 	}
 	public void updateR(float deltaTime){

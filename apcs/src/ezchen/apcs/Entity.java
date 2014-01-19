@@ -45,6 +45,7 @@ public abstract class Entity {
 		Walking,
 		Jumping,
 		Dying,
-		Punch
+		Punching,
+		Shooting
 	}
 }

@@ -1,14 +1,20 @@
 package ezchen.apcs;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Player extends Entity {
 	
+	private World world;
+	
+	private Rectangle testBounds = new Rectangle();
+	
 	//Velocity/Acceleration
 	private float ACCELERATION = 25f;
 	private float GRAVITY = .5f;
-	private float MAX_FALLSPEED = .5f;
+	private float MAX_FALLSPEED = 5f;
 	
 	//keys
 	private boolean upPressed = false;
@@ -17,8 +23,10 @@ public class Player extends Entity {
 	private boolean kPressed = false;
 	
 	
-	public Player() {
+	public Player(World world) {
+		this.world = world;
 		
+		//number of pixels in each direction
 		DIMENSION.x = 20;
 		DIMENSION.y = 30;
 		
@@ -27,7 +35,7 @@ public class Player extends Entity {
 		position.x = 0;
 		position.y = 6;
 		
-		MAX_VELOCITY = 100f;
+		MAX_VELOCITY = 10f;
 		JUMP_VELOCITY = 15f;
 		DAMPING = .90f;
 		ACCELERATION = 2f;
@@ -53,14 +61,62 @@ public class Player extends Entity {
 	//handles collision detection, moves player
 	public void tryMove(float deltaTime) {
 		//allows movement based on time
+		ArrayList<Tile> a = new ArrayList<Tile>();
+		
+		Floor floor = world.findFloor(this);
+		
 		velocity.scl(deltaTime);
 		
-		position.x += velocity.x;
-		if (!grounded) {
-			position.y += velocity.y;
+		int c, r1, r2;
+		
+		if (velocity.x > 0) {
+			c = (int)(Math.floor(position.x + bounds.width + velocity.x));
+		} else {
+			c = (int)(Math.floor(position.x + velocity.x));
 		}
-		bounds.setPosition(position);
+		
+		//bottom of the character
+		r2 = (int)((floor.position.y - Math.floor(position.y)) % 6)+1;
+		//top of the character
+		r1 = (int)(((floor.position.y - Math.floor(position.y + bounds.height))) % 6) + 1;
+		if (r1 < 6)
+			a.add(floor.getTiles()[r1][c]);
+		if (r2 < 6)
+			a.add(floor.getTiles()[r2][c]);
+		else
+			a.add(floor.getTiles()[5][c]);
+		testBounds.set(bounds);
+		testBounds.x += velocity.x;
+		for (Tile t : a) {
+			if (t != null) {
+				if (testBounds.overlaps(t.getBounds())) {
+					if (velocity.x >= 0)
+						position.x = t.getPosition().x - bounds.width - .01f;
+					else
+						position.x = t.getPosition().x + t.getBounds().width + .01f;
+					velocity.x = 0;
+					break;
+				}
+			}
+		}
+		position.x += velocity.x;
+		bounds.x = position.x;
+		
+		a = collisionTilesY(world.findFloor(this));
+		testBounds.y += velocity.y;
+		for (Tile t : a) {
+			if (t != null) {
+				if (testBounds.overlaps(t.getBounds())) {
+					grounded = true;
+					position.y = t.getBounds().y + t.getBounds().height;
+					velocity.y = 0;
+				}
+			}
+		}
+		position.y += velocity.y;
+		bounds.y = position.y;
 		velocity.scl(1/deltaTime);
+		grounded = false;
 	}
 	
 	public void updateVelocity(float deltaTime) {
@@ -97,10 +153,28 @@ public class Player extends Entity {
 			velocity.x = 0;
 			state = State.Standing;
 		}
+		
+		if (!grounded)
+			velocity.y -= GRAVITY;
+		
 		if (!leftPressed && !rightPressed)
 			velocity.x *= DAMPING;
+	}
+	
+	private ArrayList<Tile> collisionTilesY(Floor floor) {
+		ArrayList<Tile> a = new ArrayList<Tile>();
 		
-		velocity.y -= GRAVITY;
+		//tiles underneath the player
+		int row = (int) (Math.abs((floor.position.y - Math.floor(position.y)) + 1));
+		int column = (int) (Math.floor(position.x));
+		int column2 = (int) (Math.floor(position.x + bounds.width));
+		if (row < 6) {
+			a.add(floor.getTiles()[row][column]);
+			if (column != column2 && column2 <= 26) {
+				a.add(floor.getTiles()[row][column2]);
+			}	
+		}
+		return a;
 	}
 	
 	public Rectangle getBounds() {
@@ -112,6 +186,7 @@ public class Player extends Entity {
 		switch(keyCode) {
 		case(Input.Keys.W):
 			upPressed = true;
+			grounded = false;
 			break;
 		case(Input.Keys.A):
 			leftPressed = true;
