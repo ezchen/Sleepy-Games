@@ -13,7 +13,7 @@ public class Player extends Entity {
 	
 	//Velocity/Acceleration
 	private float ACCELERATION = 25f;
-	private float GRAVITY = .5f;
+	private float GRAVITY = 2f;
 	private float MAX_FALLSPEED = 5f;
 	
 	//keys
@@ -22,6 +22,7 @@ public class Player extends Entity {
 	private boolean rightPressed = false;
 	private boolean kPressed = false;
 	
+	private boolean canDoubleJump = false;
 	ArrayList<Tile> a = new ArrayList<Tile>();
 	
 	public Player(World world) {
@@ -37,9 +38,9 @@ public class Player extends Entity {
 		position.y = 6;
 		
 		MAX_VELOCITY = 10f;
-		JUMP_VELOCITY = 15f;
+		JUMP_VELOCITY = 25f;
 		DAMPING = .90f;
-		ACCELERATION = 2f;
+		ACCELERATION = 10f;
 		
 		state = State.Standing;
 		
@@ -130,10 +131,12 @@ public class Player extends Entity {
 		//bottom collisions
 		a = collisionTilesY(floor);
 		testBounds.y += velocity.y;
+		grounded = false;
 		for (Tile t : a) {
 			if (t != null) {
 				if (testBounds.overlaps(t.getBounds())) {
 					grounded = true;
+					canDoubleJump = true;
 					position.y = t.getBounds().y + t.getBounds().height;
 					velocity.y = 0;
 				}
@@ -142,20 +145,22 @@ public class Player extends Entity {
 		position.y += velocity.y;
 		bounds.y = position.y;
 		velocity.scl(1/deltaTime);
-		grounded = false;
 	}
 	
 	public void updateVelocity(float deltaTime) {
 		// jump
 		if (upPressed) {
 			// allows various heights when jumping
-			if (velocity.y > JUMP_VELOCITY)
-				velocity.y = JUMP_VELOCITY;
-			else
-				velocity.y += ACCELERATION;
 			if (grounded) {
+				velocity.y = JUMP_VELOCITY;
 				state = State.Jumping;
 				grounded = false;
+				canDoubleJump = true;
+			} else {
+				if (canDoubleJump && velocity.y < 0) {
+					velocity.y = JUMP_VELOCITY;
+					canDoubleJump = false;
+				}
 			}
 		}
 		// walk

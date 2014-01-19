@@ -52,8 +52,6 @@ public class World {
 		int i = 0;
 		while (player.position.y < floors.get(i).getPosition().y)
 			i++;
-		
-		System.out.println(i);
 		return floors.get(i-1);
 	}
 	
