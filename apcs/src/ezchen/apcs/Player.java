@@ -24,9 +24,11 @@ public class Player extends Entity {
 	
 	private boolean canDoubleJump = false;
 	ArrayList<Tile> a = new ArrayList<Tile>();
+	ArrayList<Enemy> enemies;
 	
 	public Player(World world) {
 		this.world = world;
+		this.enemies = world.getEnemies();
 		
 		//number of pixels in each direction
 		DIMENSION.x = 20;

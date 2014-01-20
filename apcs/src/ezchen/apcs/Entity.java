@@ -40,12 +40,18 @@ public abstract class Entity {
 	
 	protected State state;
 	
+	public Rectangle getBounds(){
+		return bounds;
+	}
+	
 	protected enum State {
 		Standing,
 		Walking,
+		Running,
 		Jumping,
 		Dying,
-		Punching,
+		Chopping,
+		Kicking,
 		Shooting
 	}
 }

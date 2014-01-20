@@ -8,18 +8,21 @@ public class Shooter extends Enemy {
 	private float sinceShot;
 	private float reloadTime = 1; /* edit */
 	public Shooter(){
-		/* velocity? */
+		velocity.x = STD_VELOCITY; /* edit */
 	}
-	public void updateS(float deltaTime){
+	public void update(float deltaTime){
 		if(state != State.Shooting){ /* create Shooting State */
-			if(!seesPlayer || sinceShot < reloadTime){
-				/* move */
+			if(!seesPlayer() || sinceShot < reloadTime){
+				sinceShot += deltaTime;
+				if(isProblem(deltaTime)){
+					velocity.x = -velocity.x;
+					facesRight = !facesRight;
+				} else {
+					position.x += velocity.x * deltaTime;
+				}
 			}
 			else {
-				/* 
-				 * change state to shooting 
-				 * stop moving
-				 */
+				state = State.Shooting;
 			}
 		}
 		else {
