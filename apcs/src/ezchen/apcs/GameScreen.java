@@ -30,6 +30,8 @@ public class GameScreen extends InputAdapter implements Screen {
 	public GameScreen(Apcs game) {
 		this.game = game;
 		
+		Resources.load();
+		
 		//defaults to arial
 		font = new BitmapFont();
 		
@@ -48,7 +50,7 @@ public class GameScreen extends InputAdapter implements Screen {
 	
 	public void render(float delta) {
 		//clear the screen
-		Gdx.gl.glClearColor( 255, 255, 255, 1 );
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		//updates the world based on time

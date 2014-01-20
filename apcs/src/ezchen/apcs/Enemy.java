@@ -1,10 +1,10 @@
 package ezchen.apcs;
 
-import ezchen.apcs.Entity.State;
+import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Enemy extends Entity {
 	protected float STD_VELOCITY = 0.1f; /* edit */
-	private int type;
+	protected int type;
 	protected Player player;
 	public Floor floor;
 	public static Enemy makeEnemy(Floor f, Player p){
@@ -18,10 +18,12 @@ public abstract class Enemy extends Entity {
 		e.position.y = f.getTiles()[f.getHeight()-2][0].getPosition().y;
 		e.floor = f;
 		e.player = p;
-		e.position.x = 0; /* edit */
+		e.position.x = (int)(1 + (Math.random() * f.getTiles()[0].length)); /* edit */
+		e.bounds = new Rectangle(e.position.x, e.position.y, e.DIMENSION.x/16f, e.DIMENSION.y/16f);
 		return e;
 	}
 	public abstract void update(float deltaTime);
+	
 	public boolean seesPlayer(){
 		float ebottom = position.y;
 		float etop = position.y + 1;
@@ -32,6 +34,7 @@ public abstract class Enemy extends Entity {
 				|| (etop <= ptop && ebottom >= pbottom)
 				|| (etop >= pbottom && ebottom <= pbottom));
 	}
+	
 	public boolean intersectX(float tx, float left, float right){
 		float tleft = tx;
 		float tright = tx + 1;
@@ -39,6 +42,7 @@ public abstract class Enemy extends Entity {
 				|| (right <= tright && left >= tleft)
 				|| (right >= tleft && left <= tleft);
 	}
+	
 	public boolean isProblem(float deltaTime){
 		Tile[] below = floor.getTiles()[floor.getHeight()-1];
 		Tile[] at = floor.getTiles()[floor.getHeight()-2];

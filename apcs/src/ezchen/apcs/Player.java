@@ -3,6 +3,9 @@ package ezchen.apcs;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Player extends Entity {
@@ -22,6 +25,11 @@ public class Player extends Entity {
 	private boolean rightPressed = false;
 	private boolean kPressed = false;
 	
+	private Animation chopping;
+	private Animation down;
+	private Animation kicking;
+	private Animation jumping;
+	
 	private boolean canDoubleJump = false;
 	ArrayList<Tile> a = new ArrayList<Tile>();
 	ArrayList<Enemy> enemies;
@@ -31,10 +39,10 @@ public class Player extends Entity {
 		this.enemies = world.getEnemies();
 		
 		//number of pixels in each direction
-		DIMENSION.x = 20;
-		DIMENSION.y = 30;
+		DIMENSION.x = 16;
+		DIMENSION.y = 21;
 		
-		bounds = new Rectangle(0, 6, 20/16f, 30/16f);
+		bounds = new Rectangle(0, 6, 12/16f, 19/16f);
 		
 		position.x = 0;
 		position.y = 6;
@@ -49,6 +57,16 @@ public class Player extends Entity {
 		facesRight = false;
 		
 		grounded = false;
+		
+		standing = new Animation(.4f, Resources.standFrames);
+		walking = new Animation(.3f, Resources.walkFrames);
+		chopping = new Animation(.15f, Resources.chopFrames);
+		kicking = new Animation(.15f, Resources.kickFrames);
+		down = new Animation(.15f, Resources.downFrames);
+		jumping = new Animation(.15f, Resources.standFrames[0]);
+		standing.setPlayMode(Animation.LOOP);
+		walking.setPlayMode(Animation.LOOP);
+		
 	}
 	
 	public void update(float deltaTime) {
@@ -252,5 +270,23 @@ public class Player extends Entity {
 			break;
 		}
 		return true;
+	}
+
+	@Override
+	public void render(SpriteBatch batch) {
+		TextureRegion frame = null;
+		if (state == State.Standing) {
+			frame = standing.getKeyFrame(stateTime);
+		} else if (state == State.Walking) {
+			frame = walking.getKeyFrame(stateTime);
+		}
+		
+		if (frame != null) {
+		if (facesRight) {
+			batch.draw(frame, position.x, position.y, DIMENSION.x/16f, DIMENSION.y/16f);
+		} else {
+			batch.draw(frame, position.x + bounds.width, position.y, -DIMENSION.x/16f, DIMENSION.y/16f);
+		}
+		}
 	}
 }

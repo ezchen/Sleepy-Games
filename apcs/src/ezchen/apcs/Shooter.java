@@ -32,5 +32,10 @@ public class Shooter extends Enemy {
 			 */
 		}
 	}
+	@Override
+	public void render() {
+		// TODO Auto-generated method stub
+		
+	}
 		
 }

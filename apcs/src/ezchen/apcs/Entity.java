@@ -1,6 +1,7 @@
 package ezchen.apcs;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -15,15 +16,13 @@ public abstract class Entity {
 	//Slows character down if key is not pressed
 	protected float DAMPING;
 	
-	protected Rectangle Bounds;
-	
 	//Animations
 	protected Animation standing;
 	protected Animation walking;
 	protected Animation dying;
 	
 	//Rectangle used for detecting collisions
-	protected Rectangle bounds = new Rectangle();
+	protected Rectangle bounds;
 	
 	//if this entity hits tiles
 	protected boolean collides = true;
@@ -54,4 +53,6 @@ public abstract class Entity {
 		Kicking,
 		Shooting
 	}
+	
+	public abstract void render(SpriteBatch batch);
 }

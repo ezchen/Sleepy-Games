@@ -54,6 +54,7 @@ public class WorldRenderer {
 				}
 			}
 		}
+		player.render(spriteBatch);
 		spriteBatch.end();
 		debug();
 	}

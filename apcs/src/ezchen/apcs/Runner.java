@@ -9,7 +9,7 @@ public class Runner extends Enemy {
 		velocity = new Vector2(0, 0);
 	}
 	public void updateR(float deltaTime){
-		if(state == State.Standing && seesPlayer){
+		if(state == State.Standing && super.seesPlayer()){
 			state = State.Walking;
 		}
 		else {
@@ -19,5 +19,15 @@ public class Runner extends Enemy {
 			 */
 			velocity.x += ACCELERATION*deltaTime;
 		}
+	}
+	@Override
+	public void update(float deltaTime) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void render() {
+		// TODO Auto-generated method stub
+		
 	}
 }

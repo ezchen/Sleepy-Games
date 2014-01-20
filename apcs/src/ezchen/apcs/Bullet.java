@@ -16,4 +16,7 @@ public class Bullet extends Enemy {
 		 * die if collision with player/wall and inflict damage on player if applicable 
 		 */
 	}
+	public void render() {
+		
+	}
 }
