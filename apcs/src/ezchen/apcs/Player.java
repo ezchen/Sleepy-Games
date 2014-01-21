@@ -30,6 +30,8 @@ public class Player extends Entity {
 	private Animation kicking;
 	private Animation jumping;
 	
+	private Rectangle attackBounds = new Rectangle();
+	
 	private enum AttackState {
 		Chopping(1f),
 		Kicking(1f),
@@ -60,7 +62,7 @@ public class Player extends Entity {
 		DIMENSION.x = 16;
 		DIMENSION.y = 21;
 		
-		bounds = new Rectangle(0, 6, 12/16f, 19/16f);
+		bounds = new Rectangle(0, 6, 10/16f, 19/16f);
 		
 		position.x = 0;
 		position.y = 6;
@@ -78,7 +80,7 @@ public class Player extends Entity {
 		
 		standing = new Animation(.4f, Resources.standFrames);
 		walking = new Animation(.3f, Resources.walkFrames);
-		chopping = new Animation(.2f, Resources.chopFrames);
+		chopping = new Animation(.1f, Resources.chopFrames);
 		kicking = new Animation(.15f, Resources.kickFrames);
 		down = new Animation(.15f, Resources.downFrames);
 		jumping = new Animation(.15f, Resources.standFrames[0]);
@@ -184,13 +186,34 @@ public class Player extends Entity {
 		position.y += velocity.y;
 		bounds.y = position.y;
 		checkEnemyCollisions(world.getEnemies());
+		checkBulletCollisions(world.getBullets());
 		velocity.scl(1/deltaTime);
 	}
 	
 	public void checkEnemyCollisions(ArrayList<Enemy> enemies) {
-		for (Enemy e : enemies) {
+		for (int i = 0; i < enemies.size(); i++) {
+			Enemy e = enemies.get(i);
+			if (attackState != null) {
+				if (attackState == AttackState.Chopping) {
+					float x = (facesRight) ? position.x + (DIMENSION.x/16f)/2 : position.x - (DIMENSION.x/16f)/2;
+					attackBounds.set(x, position.y, 1f, 1f);
+					if (e.getBounds().overlaps(attackBounds)) {
+						e.destroy();
+					}
+				}
+			} else if (e.getBounds().overlaps(bounds)) {
+				state = State.Dying;
+				System.out.println("dead");
+			}
+		}
+	}
+	
+	public void checkBulletCollisions(ArrayList<Enemy> bullets) {
+		for (int i = 0; i < bullets.size(); i++) {
+			Bullet e = (Bullet)bullets.get(i);
 			if (e.getBounds().overlaps(bounds)) {
 				state = State.Dying;
+				e.destroy();
 				System.out.println("dead");
 			}
 		}
@@ -213,17 +236,21 @@ public class Player extends Entity {
 			}
 		}
 		// walk
-		if (leftPressed) {
-			velocity.x -= ACCELERATION;
-			if (grounded)
-				state = State.Walking;
-			facesRight = false;
-		}
-		if (rightPressed) {
-			velocity.x += ACCELERATION;
-			if (grounded)
-				state = State.Walking;
-			facesRight = true;
+		if (leftPressed && rightPressed || !leftPressed && !rightPressed)
+			velocity.x *= DAMPING;
+		else {
+			if (leftPressed) {
+				velocity.x -= ACCELERATION;
+				if (grounded)
+					state = State.Walking;
+				facesRight = false;
+			}
+			if (rightPressed) {
+				velocity.x += ACCELERATION;
+				if (grounded)
+					state = State.Walking;
+				facesRight = true;
+			}
 		}
 		if (kPressed) {
 			attackState = AttackState.Chopping;
@@ -240,8 +267,7 @@ public class Player extends Entity {
 		if (!grounded)
 			velocity.y -= GRAVITY;
 		
-		if (!leftPressed && !rightPressed)
-			velocity.x *= DAMPING;
+
 	}
 	
 	private ArrayList<Tile> collisionTilesY(Floor floor) {
@@ -318,14 +344,16 @@ public class Player extends Entity {
 			frame = standing.getKeyFrame(stateTime);
 		} else if (state == State.Walking) {
 			frame = walking.getKeyFrame(stateTime);
+		} else if (state == State.Jumping) {
+			frame = jumping.getKeyFrame(stateTime);
 		}
 		
 		if (frame != null) {
-		if (facesRight) {
-			batch.draw(frame, position.x, position.y, DIMENSION.x/16f, DIMENSION.y/16f);
-		} else {
-			batch.draw(frame, position.x + bounds.width, position.y, -DIMENSION.x/16f, DIMENSION.y/16f);
-		}
+			if (facesRight) {
+				batch.draw(frame, position.x, position.y, DIMENSION.x/16f, DIMENSION.y/16f);
+			} else {
+				batch.draw(frame, position.x + bounds.width, position.y, -DIMENSION.x/16f, DIMENSION.y/16f);
+			}
 		}
 	}
 }

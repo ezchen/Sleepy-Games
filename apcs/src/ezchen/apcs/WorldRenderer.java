@@ -47,7 +47,7 @@ public class WorldRenderer {
 			for (Tile[] tArr : floor.getTiles()) {
 				for (Tile t : tArr) {
 					if (!(t==null)) {
-						spriteBatch.draw(world.getBlockTextures()[t.getTileNum()], 
+						spriteBatch.draw(world.getBlockTextures()[0][0], 
 								t.getPosition().x, t.getPosition().y,
 								t.getSize(), t.getSize());
 					}
@@ -55,8 +55,14 @@ public class WorldRenderer {
 			}
 		}
 		player.render(spriteBatch);
+		for (int i = 0; i < world.getEnemies().size(); i++) {
+			world.getEnemies().get(i).render(spriteBatch);
+		}
+		for (int i = 0; i < world.getBullets().size(); i++) {
+			world.getBullets().get(i).render(spriteBatch);
+		}
 		spriteBatch.end();
-		debug();
+		//debug();
 	}
 	
 	public void renderPlayer() {
@@ -89,6 +95,11 @@ public class WorldRenderer {
 			} else {
 				debugRenderer.setColor(new Color(Color.CYAN));
 			}
+			debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+		}
+		for (Enemy e : world.getBullets()) {
+			rect = e.getBounds();
+			debugRenderer.setColor(new Color(Color.BLUE));
 			debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
 		}
 		debugRenderer.end();

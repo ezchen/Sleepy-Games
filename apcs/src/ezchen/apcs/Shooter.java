@@ -2,30 +2,40 @@ package ezchen.apcs;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class Shooter extends Enemy {
+	
 	private Animation shooting;
+	private TextureRegion moving = Resources.shooterWalkFrames[0];
 	private float sinceShot = 0;
-	private float reloadTime = 1; /* edit */
+	private float reloadTime = 5; /* edit */
+	
 	public Shooter(){
+		shooting = new Animation(.15f, Resources.shooterShootFrames);
+		shooting.setPlayMode(Animation.NORMAL);
 		velocity = new Vector2(1f, 0); /* edit */
 		stateTime = 0;
 		state = State.Walking;
 	}
+	
 	public void update(float deltaTime){
 		velocity.scl(deltaTime);
-		if (state == State.Shooting) {
+		if(seesPlayer() && sinceShot > reloadTime) {
 			System.out.println("shoot");
-		} else {
-			if(seesPlayer() && sinceShot > reloadTime) {
-				//shoot
-				sinceShot = 0;
-			}
-			if(isProblem(deltaTime)) {
-				velocity.x = -velocity.x;
-				facesRight = !facesRight;
-			}
+			int direction = (facesRight) ? -1 : 1;
+			world.getBullets().add(new Bullet(direction, position.x, position.y + .5f, world.getBullets().size(), world));
+			sinceShot = 0;
+			state = State.Shooting;
+		}
+		if(isProblem(deltaTime)) {
+			velocity.x = -velocity.x;
+			facesRight = !facesRight;
+		}
+		if (shooting.isAnimationFinished(stateTime)) {
+			stateTime = 0;
+			state = State.Walking;
 		}
 		
 		position.x += velocity.x;
@@ -38,8 +48,21 @@ public class Shooter extends Enemy {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		// TODO Auto-generated method stub
+		TextureRegion frame = moving;
 		
+		if (state == State.Shooting) {
+			frame = shooting.getKeyFrame(stateTime);
+		} else {
+			frame = moving;
+		}
+		
+		if (frame != null) {
+			if (facesRight) {
+				batch.draw(frame, position.x, position.y, DIMENSION.x/16f, DIMENSION.y/16f);
+			} else {
+				batch.draw(frame, position.x + bounds.width, position.y, -DIMENSION.x/16f, DIMENSION.y/16f);
+			}
+		}
 	}
-		
+	
 }

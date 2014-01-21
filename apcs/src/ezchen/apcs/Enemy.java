@@ -6,14 +6,15 @@ public abstract class Enemy extends Entity {
 	protected float STD_VELOCITY = 0.1f; /* edit */
 	protected int type;
 	protected Player player;
+	protected World world;
 	public Floor floor;
-	public static Enemy makeEnemy(Floor f, Player p){
+	public static Enemy makeEnemy(Floor f, Player p, World world){
 		Enemy e;
 		int t = (int) (2*Math.random());
 		e = (t == 1 ? new Shooter() : new Runner());
 		e.type = t;
-		e.DIMENSION.x = 16;
-		e.DIMENSION.y = 16;
+		e.DIMENSION.x = 14;
+		e.DIMENSION.y = 14;
 		e.facesRight = false;
 		e.position.y = f.getTiles()[f.getHeight()-2][0].getPosition().y;
 		e.floor = f;
@@ -22,9 +23,14 @@ public abstract class Enemy extends Entity {
 			e.position.x = (int)(1 + (Math.random() * f.getTiles()[0].length));
 		}
 		e.bounds = new Rectangle(e.position.x, e.position.y, e.DIMENSION.x/16f, e.DIMENSION.y/16f);
+		e.world = world;
 		return e;
 	}
 	public abstract void update(float deltaTime);
+	
+	public void destroy() {
+		world.getEnemies().remove(this);
+	}
 	
 	public boolean seesPlayer(){
 		float ebottom = position.y;

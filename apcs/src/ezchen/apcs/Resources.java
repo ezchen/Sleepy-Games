@@ -31,11 +31,9 @@ public class Resources {
 		
 		atlas = new TextureAtlas("data/sprites.atlas");
 		
-		TextureRegion tileset = atlas.findRegion("tileset");
+		Texture tileset = new Texture("data/tileset.png");
 		
-		tileset = atlas.findRegion("tileset");
-		
-		TextureRegion[][] tiles = tileset.split(16, 16);
+		tiles = TextureRegion.split(tileset, 16, 16);
 		
 		// Player animations
 		standFrames = new TextureRegion[2];
@@ -69,11 +67,11 @@ public class Resources {
 		
 		// Shooter
 		shooterWalkFrames = new TextureRegion[1];
-		shooterWalkFrames[0] = atlas.findRegion("ShooterR.png");
+		shooterWalkFrames[0] = atlas.findRegion("ShooterR");
 		
 		shooterShootFrames = new TextureRegion[4];
 		for (int i = 0; i < shooterShootFrames.length; i++) {
-			shooterShootFrames[i] = atlas.findRegion("ShootingR" + (i+1));
+			shooterShootFrames[i] = atlas.findRegion("ShootingL" + (i+1));
 		}
 		
 		// Bullets

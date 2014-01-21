@@ -101,6 +101,10 @@ public class GameScreen extends InputAdapter implements Screen {
 		
 	}
 	
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+	
 	@Override
 	public boolean keyDown(int keyCode) {
 		switch(keyCode) {
