@@ -67,7 +67,7 @@ public class Player extends Entity {
 		position.x = 0;
 		position.y = 6;
 		
-		MAX_VELOCITY = 10f;
+		MAX_VELOCITY = 7f;
 		JUMP_VELOCITY = 25f;
 		DAMPING = .90f;
 		ACCELERATION = 10f;
@@ -79,7 +79,7 @@ public class Player extends Entity {
 		grounded = false;
 		
 		standing = new Animation(.4f, Resources.standFrames);
-		walking = new Animation(.3f, Resources.walkFrames);
+		walking = new Animation(.15f, Resources.walkFrames);
 		chopping = new Animation(.1f, Resources.chopFrames);
 		kicking = new Animation(.15f, Resources.kickFrames);
 		down = new Animation(.15f, Resources.downFrames);

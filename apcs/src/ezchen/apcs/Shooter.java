@@ -13,7 +13,7 @@ public class Shooter extends Enemy {
 	private float reloadTime = 5; /* edit */
 	
 	public Shooter(){
-		shooting = new Animation(.15f, Resources.shooterShootFrames);
+		shooting = new Animation(.4f, Resources.shooterShootFrames);
 		shooting.setPlayMode(Animation.NORMAL);
 		velocity = new Vector2(1f, 0); /* edit */
 		stateTime = 0;

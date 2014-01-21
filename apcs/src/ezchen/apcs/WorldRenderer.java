@@ -47,9 +47,9 @@ public class WorldRenderer {
 			for (Tile[] tArr : floor.getTiles()) {
 				for (Tile t : tArr) {
 					if (!(t==null)) {
-						spriteBatch.draw(world.getBlockTextures()[0][0], 
-								t.getPosition().x, t.getPosition().y,
-								t.getSize(), t.getSize());
+						//spriteBatch.draw(world.getBlockTextures()[(int)Math.random()*3][(int)Math.random()*3], 
+							//	t.getPosition().x, t.getPosition().y,
+								//t.getSize(), t.getSize()); //edit
 					}
 				}
 			}
@@ -63,6 +63,21 @@ public class WorldRenderer {
 		}
 		spriteBatch.end();
 		//debug();
+		debugRenderer.begin(ShapeType.Line);
+		for (Floor floor : world.getFloors()) {
+			for (Tile[] tArr : floor.getTiles()) {
+				for (Tile t : tArr) {
+					if (!(t==null)) {
+						Rectangle rect = t.getBounds();
+						float x1 = t.getPosition().x;
+						float y1 = t.getPosition().y;
+						debugRenderer.setColor(new Color(1, 0, 0, 1));
+						debugRenderer.rect(x1,y1,rect.width,rect.height);
+					}
+				}
+			}
+		}
+		debugRenderer.end();
 	}
 	
 	public void renderPlayer() {
