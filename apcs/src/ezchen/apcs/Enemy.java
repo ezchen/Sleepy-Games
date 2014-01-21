@@ -18,7 +18,9 @@ public abstract class Enemy extends Entity {
 		e.position.y = f.getTiles()[f.getHeight()-2][0].getPosition().y;
 		e.floor = f;
 		e.player = p;
-		e.position.x = (int)(1 + (Math.random() * f.getTiles()[0].length)); /* edit */
+		while (e.isProblem(.1f)) {
+			e.position.x = (int)(1 + (Math.random() * f.getTiles()[0].length));
+		}
 		e.bounds = new Rectangle(e.position.x, e.position.y, e.DIMENSION.x/16f, e.DIMENSION.y/16f);
 		return e;
 	}

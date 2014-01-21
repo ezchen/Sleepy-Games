@@ -11,7 +11,7 @@ public class World {
 	
 	private Player player;
 	private ArrayList<Floor> floors;
-	private ArrayList<Enemy> enemies;
+	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private TextureRegion[] blockTextures = Resources.regions;
 	
 	public World(int width) {
@@ -42,8 +42,8 @@ public class World {
 		}
 		
 		player.update(deltaTime);
-		//for(Enemy e : enemies)
-		//	e.update(deltaTime);
+		for(Enemy e : enemies)
+			e.update(deltaTime);
 		camera.position.y = player.position.y;
 		
 		if (!(player.position.x - camera.viewportWidth/2 <= 0 || player.position.x + camera.viewportWidth/2 >= WIDTH))
@@ -73,7 +73,7 @@ public class World {
 	public void addFloor() {
 		int yPos = (int) (floors.get(floors.size()-1).getPosition().y - floors.get(floors.size()-1).getHeight());
 		floors.add(new Floor(WIDTH, 6, yPos));
-		//enemies.add(Enemy.makeEnemy(floors.get(floors.size()-1), player));
+		enemies.add(Enemy.makeEnemy(floors.get(floors.size()-1), player));
 	}
 	
 	//getters

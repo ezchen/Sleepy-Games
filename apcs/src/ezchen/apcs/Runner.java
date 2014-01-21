@@ -1,32 +1,29 @@
 package ezchen.apcs;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Runner extends Enemy {
-	private float ACCELERATION = 0.1f; /* edit */
 	public Runner(){
 		MAX_VELOCITY = 1f; /* edit */
-		velocity = new Vector2(0, 0);
+		velocity = new Vector2(1f, 0);
 	}
-	public void updateR(float deltaTime){
-		if(state == State.Standing && super.seesPlayer()){
-			state = State.Walking;
-		}
-		else {
-			/*
-			 * if collision with wall, stop 
-			 * 
-			 */
-			velocity.x += ACCELERATION*deltaTime;
-		}
-	}
+	
 	@Override
-	public void update(float deltaTime) {
-		// TODO Auto-generated method stub
+	public void update(float deltaTime){
+		velocity.scl(deltaTime);
+		if (isProblem(deltaTime)) {
+			velocity.x *= -1;
+		}
 		
+		
+		position.x += velocity.x;
+		bounds.x = position.x;
+		velocity.scl(1/deltaTime);
 	}
+
 	@Override
-	public void render() {
+	public void render(SpriteBatch batch) {
 		// TODO Auto-generated method stub
 		
 	}

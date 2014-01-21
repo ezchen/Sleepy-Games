@@ -82,7 +82,18 @@ public class WorldRenderer {
 		}
 		Rectangle rect = player.getBounds();
 		debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+		for (Enemy e : world.getEnemies()) {
+			rect = e.getBounds();
+			if (e instanceof Runner) {
+				debugRenderer.setColor(new Color(Color.BLUE));
+			} else {
+				debugRenderer.setColor(new Color(Color.CYAN));
+			}
+			debugRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+		}
 		debugRenderer.end();
+		
+
 	}
 	
 	public World getWorld() {

@@ -30,6 +30,24 @@ public class Player extends Entity {
 	private Animation kicking;
 	private Animation jumping;
 	
+	private enum AttackState {
+		Chopping(1f),
+		Kicking(1f),
+		Shooting(1f);
+		
+		private float attackTime;
+		
+		AttackState(float attackTime) {
+			this.attackTime = attackTime;
+		}
+		
+		public float getAttackTime() {
+			return this.attackTime;
+		}
+	}
+	
+	AttackState attackState;
+	
 	private boolean canDoubleJump = false;
 	ArrayList<Tile> a = new ArrayList<Tile>();
 	ArrayList<Enemy> enemies;
@@ -60,12 +78,13 @@ public class Player extends Entity {
 		
 		standing = new Animation(.4f, Resources.standFrames);
 		walking = new Animation(.3f, Resources.walkFrames);
-		chopping = new Animation(.15f, Resources.chopFrames);
+		chopping = new Animation(.2f, Resources.chopFrames);
 		kicking = new Animation(.15f, Resources.kickFrames);
 		down = new Animation(.15f, Resources.downFrames);
 		jumping = new Animation(.15f, Resources.standFrames[0]);
 		standing.setPlayMode(Animation.LOOP);
 		walking.setPlayMode(Animation.LOOP);
+		chopping.setPlayMode(Animation.NORMAL);
 		
 	}
 	
@@ -164,7 +183,17 @@ public class Player extends Entity {
 		}
 		position.y += velocity.y;
 		bounds.y = position.y;
+		checkEnemyCollisions(world.getEnemies());
 		velocity.scl(1/deltaTime);
+	}
+	
+	public void checkEnemyCollisions(ArrayList<Enemy> enemies) {
+		for (Enemy e : enemies) {
+			if (e.getBounds().overlaps(bounds)) {
+				state = State.Dying;
+				System.out.println("dead");
+			}
+		}
 	}
 	
 	public void updateVelocity(float deltaTime) {
@@ -195,6 +224,9 @@ public class Player extends Entity {
 			if (grounded)
 				state = State.Walking;
 			facesRight = true;
+		}
+		if (kPressed) {
+			attackState = AttackState.Chopping;
 		}
 		
 		if(Math.abs(velocity.x) > MAX_VELOCITY)
@@ -275,7 +307,14 @@ public class Player extends Entity {
 	@Override
 	public void render(SpriteBatch batch) {
 		TextureRegion frame = null;
-		if (state == State.Standing) {
+		if (attackState == AttackState.Chopping) {
+			if (!chopping.isAnimationFinished(stateTime)) {
+				frame = chopping.getKeyFrame(stateTime);
+			} else {
+				attackState = null;
+				stateTime = 0;
+			}
+		} else if (state == State.Standing) {
 			frame = standing.getKeyFrame(stateTime);
 		} else if (state == State.Walking) {
 			frame = walking.getKeyFrame(stateTime);

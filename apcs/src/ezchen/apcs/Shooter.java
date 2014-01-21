@@ -1,39 +1,43 @@
 package ezchen.apcs;
 
-import ezchen.apcs.Entity.State;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class Shooter extends Enemy {
 	private Animation shooting;
-	private float sinceShot;
+	private float sinceShot = 0;
 	private float reloadTime = 1; /* edit */
 	public Shooter(){
-		velocity.x = STD_VELOCITY; /* edit */
+		velocity = new Vector2(1f, 0); /* edit */
+		stateTime = 0;
+		state = State.Walking;
 	}
 	public void update(float deltaTime){
-		if(state != State.Shooting){ /* create Shooting State */
-			if(!seesPlayer() || sinceShot < reloadTime){
-				sinceShot += deltaTime;
-				if(isProblem(deltaTime)){
-					velocity.x = -velocity.x;
-					facesRight = !facesRight;
-				} else {
-					position.x += velocity.x * deltaTime;
-				}
+		velocity.scl(deltaTime);
+		if (state == State.Shooting) {
+			System.out.println("shoot");
+		} else {
+			if(seesPlayer() && sinceShot > reloadTime) {
+				//shoot
+				sinceShot = 0;
 			}
-			else {
-				state = State.Shooting;
+			if(isProblem(deltaTime)) {
+				velocity.x = -velocity.x;
+				facesRight = !facesRight;
 			}
 		}
-		else {
-			/*
-			 * run through shooting animations
-			 * if last animation (or equivalently if sinceShot is a certain size), make bullet
-			 */
-		}
+		
+		position.x += velocity.x;
+		bounds.x = position.x;
+		
+		velocity.scl(1/deltaTime);
+		stateTime += deltaTime;
+		sinceShot += deltaTime;
 	}
+
 	@Override
-	public void render() {
+	public void render(SpriteBatch batch) {
 		// TODO Auto-generated method stub
 		
 	}
