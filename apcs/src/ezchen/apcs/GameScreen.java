@@ -40,7 +40,7 @@ public class GameScreen extends InputAdapter implements Screen {
 		camera.position.x = camera.viewportWidth / 2;
 		camera.update();
 		
-		world = new World((int)(camera.viewportWidth * 3/2f));
+		world = new World((int)(camera.viewportWidth * 3/2f), game);
 		
 		renderer = new WorldRenderer(world);
 		renderer.setView(camera);

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Bullet extends Enemy {
-	private float speed = 4f; /* edit */
+	private float speed = 8f; /* edit */
 	private int arrayIndex;
 	private Animation moving;
 	public Bullet(int direction /*+1 or -1*/, float xPos, float yPos, int arrayIndex, World world){

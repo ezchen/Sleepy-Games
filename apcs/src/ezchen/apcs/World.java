@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class World {
 	
 	private int WIDTH;
+	private Apcs game;
 	
 	private Player player;
 	private ArrayList<Floor> floors;
@@ -15,7 +16,8 @@ public class World {
 	private ArrayList<Enemy> bullets = new ArrayList<Enemy>();
 	private TextureRegion[][] blockTextures = Resources.tiles;
 	
-	public World(int width) {
+	public World(int width, Apcs game) {
+		this.game = game;
 		WIDTH = width;
 		player = new Player(this);
 		player.position.x = 5;
@@ -117,6 +119,10 @@ public class World {
 	public void createDemoWorld() {
 		floors.add(new Floor(15,4,10));
 		floors.add(new Floor(15,4,6));
+	}
+	
+	public Apcs getGame() {
+		return game;
 	}
 }
 	

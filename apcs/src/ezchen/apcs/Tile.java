@@ -24,10 +24,11 @@ public class Tile {
 	private int size = 1;
 	
 	
-	public Tile(boolean blocked, Vector2 position) {
+	public Tile(boolean blocked, Vector2 position, int tileNum) {
 		BLOCKED = blocked;
 		this.position = position;
 		bounds.set(position.x, position.y, 1, 1);
+		this.tileNum = tileNum;
 	}
 	
 	public int getTileNum() {
