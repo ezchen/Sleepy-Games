@@ -19,12 +19,15 @@ public class Player extends Entity {
 	private float ACCELERATION = 25f;
 	private float GRAVITY = 2f;
 	private float MAX_FALLSPEED = 5f;
+	private float KICK_SPEED = 10f;
+	private float MAX_KICKTIME = 2f;
 	
 	//keys
 	private boolean upPressed = false;
 	private boolean leftPressed = false;
 	private boolean rightPressed = false;
 	private boolean kPressed = false;
+	private boolean lPressed = false;
 	
 	private Animation chopping;
 	private Animation down;
@@ -32,6 +35,9 @@ public class Player extends Entity {
 	private Animation jumping;
 	
 	private Rectangle attackBounds = new Rectangle();
+	
+	private boolean isKicking = false;
+	private float sinceKick = 0;
 	
 	private enum AttackState {
 		Chopping(1f),
@@ -220,7 +226,9 @@ public class Player extends Entity {
 	
 	public void updateVelocity(float deltaTime) {
 		// jump
-		if (upPressed) {
+		sinceKick += deltaTime;
+		isKicking = (sinceKick < MAX_KICKTIME);
+		if (upPressed && !isKicking) {
 			// allows various heights when jumping
 			if (grounded) {
 				velocity.y = JUMP_VELOCITY;
@@ -251,7 +259,13 @@ public class Player extends Entity {
 				facesRight = true;
 			}
 		}
-		if (kPressed) {
+		if (lPressed) {
+			attackState = AttackState.Kicking;
+			velocity.x = Math.signum(velocity.x)*KICK_SPEED;
+			if(!grounded)
+				velocity.y = -KICK_SPEED;
+			sinceKick = 0;
+		} else if (kPressed) {
 			attackState = AttackState.Chopping;
 		}
 		
@@ -262,9 +276,9 @@ public class Player extends Entity {
 			velocity.x = 0;
 			state = State.Standing;
 		}
-		
-		if (!grounded)
+		if (!grounded && !isKicking)
 			velocity.y -= GRAVITY;
+		
 		
 
 	}
@@ -307,6 +321,9 @@ public class Player extends Entity {
 		case(Input.Keys.K):
 			kPressed = true;
 			break;
+		case(Input.Keys.L):
+			lPressed = true;
+			break;
 		}
 		return true;
 	}
@@ -325,6 +342,9 @@ public class Player extends Entity {
 		case(Input.Keys.K):
 			kPressed = false;
 			break;
+		case(Input.Keys.L):
+			lPressed = false;
+			break;
 		}
 		return true;
 	}
@@ -338,6 +358,12 @@ public class Player extends Entity {
 			} else {
 				attackState = null;
 				stateTime = 0;
+			}
+		} else if (attackState == AttackState.Kicking) {
+			if (grounded) {
+				frame = kicking.getKeyFrame(stateTime);
+			} else {
+				frame = down.getKeyFrame(stateTime);
 			}
 		} else if (state == State.Standing) {
 			frame = standing.getKeyFrame(stateTime);
