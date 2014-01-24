@@ -25,12 +25,15 @@ public class MainMenu implements Screen {
 	//font
 	private BitmapFont font;
 	
-	public MainMenu(Apcs game, OrthographicCamera camera) {
+	private int score;
+	
+	public MainMenu(Apcs game, OrthographicCamera camera, int score) {
 		this.game = game;
 		batch = new SpriteBatch();
 		this.camera = camera;
 		camera.setToOrtho(false);
 		font = new BitmapFont();
+		this.score = score;
 	}
 	
 	@Override
@@ -46,7 +49,7 @@ public class MainMenu implements Screen {
 		// spritebatch handles this for us in begin() and end()
 		batch.begin();
 		// draws text
-		font.drawMultiLine(batch, "Press enter to continue", 100, 150);
+		font.drawMultiLine(batch, "Press enter to continue\n Score: " + score, 100, 150);
 		batch.end();
 		
 		// brings us back to the game Screen if enter is pressed

@@ -292,7 +292,7 @@ public class Player extends Entity {
 			} else if (e.getBounds().overlaps(bounds)) {
 				state = State.Dying;
 				// sets the screen to main menu screen
-				world.getGame().setScreen(new MainMenu(world.getGame(), new OrthographicCamera()));
+				world.getGame().setScreen(new MainMenu(world.getGame(), new OrthographicCamera(), world.getScore()));
 			}
 		}
 	}
@@ -303,7 +303,7 @@ public class Player extends Entity {
 			if (e.getBounds().overlaps(bounds)) {
 				state = State.Dying;
 				e.destroy();
-				world.getGame().setScreen(new MainMenu(world.getGame(), new OrthographicCamera()));
+				world.getGame().setScreen(new MainMenu(world.getGame(), new OrthographicCamera(), world.getScore()));
 			}
 		}
 	}
