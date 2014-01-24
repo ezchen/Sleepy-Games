@@ -39,6 +39,8 @@ public class Player extends Entity {
 	private boolean isKicking = false;
 	private float sinceKick = 0;
 	
+	private boolean canChop = true;
+	
 	private enum AttackState {
 		Chopping,
 		Kicking;
@@ -76,7 +78,7 @@ public class Player extends Entity {
 		
 		standing = new Animation(.4f, Resources.standFrames);
 		walking = new Animation(.15f, Resources.walkFrames);
-		chopping = new Animation(.1f, Resources.chopFrames);
+		chopping = new Animation(.15f, Resources.chopFrames);
 		kicking = new Animation(.15f, Resources.kickFrames);
 		down = new Animation(.15f, Resources.downFrames);
 		jumping = new Animation(.15f, Resources.standFrames[0]);
@@ -257,8 +259,9 @@ public class Player extends Entity {
 			velocity.x = (facesRight? 1 : -1) * KICK_SPEED;
 			velocity.y = -KICK_SPEED;
 			sinceKick = 0;
-		} else if (kPressed) {
+		} else if (kPressed && canChop) {
 			attackState = AttackState.Chopping;
+			canChop = false;
 		}
 		
 		if(Math.abs(velocity.x) > MAX_VELOCITY)
@@ -333,6 +336,7 @@ public class Player extends Entity {
 			break;
 		case(Input.Keys.K):
 			kPressed = false;
+			canChop = true;
 			break;
 		case(Input.Keys.L):
 			lPressed = false;
