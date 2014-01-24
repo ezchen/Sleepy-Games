@@ -39,17 +39,17 @@ public class Floor {
 	
 	private void makeWalls() {
 		for (int r = 0; r < tiles.length; r++) {
-			setTile(r, (int) position.x, new Tile(true, new Vector2(position.x, position.y - r), (int)(Math.random() * 9)));
+			setTile(r, (int) position.x, new Tile(true, new Vector2(position.x, position.y - r), 1));
 			
 			int c = (int) position.x + tiles[r].length - 1;
-			setTile(r, c, new Tile(true, new Vector2(position.x + c, position.y - r), (int)(Math.random() * 9)));
+			setTile(r, c, new Tile(true, new Vector2(position.x + c, position.y - r), 1));
 		}
 	}
 	
 	private void makeFloor() {
 		int r = tiles.length-1;
 		for (int c = 0; c < tiles[r].length; c++) {
-			tiles[r][c] = new Tile(true, new Vector2(position.x + c, position.y - r), (int)(Math.random() * 9));
+			tiles[r][c] = new Tile(true, new Vector2(position.x + c, position.y - r), 0);
 		}
 		
 		int numHoles = (int) (1 + (2 * Math.random()));

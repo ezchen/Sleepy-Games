@@ -2,6 +2,7 @@ package ezchen.apcs;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -23,10 +24,13 @@ public class WorldRenderer {
 	
 	private Rectangle viewBounds;
 	
+	private BitmapFont font;
+	
 	private ShapeRenderer debugRenderer = new ShapeRenderer();
 	
 	public WorldRenderer(World world) {
 		this.world = world;
+		font = new BitmapFont();
 		player = world.getPlayer();
 		this.spriteBatch = new SpriteBatch();
 		viewBounds = new Rectangle();
@@ -47,7 +51,7 @@ public class WorldRenderer {
 			for (Tile[] tArr : floor.getTiles()) {
 				for (Tile t : tArr) {
 					if (!(t==null)) {
-						spriteBatch.draw(world.getBlockTextures()[t.getTileNum()%3][t.getTileNum()/3], 
+						spriteBatch.draw(world.getBlockTextures()[0][t.getTileNum()], 
 								t.getPosition().x, t.getPosition().y,
 								t.getSize(), t.getSize()); //edit
 					}
@@ -61,6 +65,10 @@ public class WorldRenderer {
 		for (int i = 0; i < world.getBullets().size(); i++) {
 			world.getBullets().get(i).render(spriteBatch);
 		}
+		spriteBatch.end();
+		spriteBatch.begin();
+		font.setScale(.5f);
+		font.drawMultiLine(spriteBatch, "" + world.getScore(), viewBounds.x, viewBounds.y);
 		spriteBatch.end();
 		//debug();
 		/*

@@ -15,6 +15,7 @@ public class World {
 	private ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	private ArrayList<Enemy> bullets = new ArrayList<Enemy>();
 	private TextureRegion[][] blockTextures = Resources.tiles;
+	private int score;
 	
 	public World(int width, Apcs game) {
 		this.game = game;
@@ -23,14 +24,16 @@ public class World {
 		player.position.x = 5;
 		player.position.y = -5;
 		floors = new ArrayList<Floor>();
+		score = 0;
 		create();
 	}
 	
 	public void create() {
-		floors.add(new Floor(WIDTH,6,10));
 		floors.add(new Floor(WIDTH,6,4));
 		floors.add(new Floor(WIDTH,6,-2));
 		floors.add(new Floor(WIDTH,6,-8));
+		floors.add(new Floor(WIDTH,6,-14));
+		floors.add(new Floor(WIDTH,6,-20));
 	}
 	
 	public synchronized void update(float deltaTime, OrthographicCamera camera) {
@@ -41,6 +44,7 @@ public class World {
 		
 		if (camera.position.y - camera.viewportHeight/2 < floors.get(floors.size()-2).position.y ) {
 			addFloor();
+			score += 100;
 			System.out.println("adding floor");
 		}
 		
@@ -105,6 +109,16 @@ public class World {
 	
 	public int getWidth() {
 		return WIDTH;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public int setScore(int newScore) {
+		int old = score;
+		score = newScore;
+		return old;
 	}
 	
 	// handle input

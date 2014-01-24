@@ -197,6 +197,7 @@ public class Player extends Entity {
 					attackBounds.set(x, position.y, 1f, 1f);
 					if (e.getBounds().overlaps(attackBounds)) {
 						e.destroy();
+						world.setScore(world.getScore() + 50);
 					}
 				}
 			} else if (e.getBounds().overlaps(bounds)) {
