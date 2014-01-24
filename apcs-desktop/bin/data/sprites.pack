@@ -1,0 +1,166 @@
+
+sprites.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+PlayerR1
+  rotate: false
+  xy: 1, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRWalking1
+  rotate: false
+  xy: 35, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRWalking3
+  rotate: false
+  xy: 69, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRKick1
+  rotate: false
+  xy: 103, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRChop4
+  rotate: false
+  xy: 137, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerR2
+  rotate: false
+  xy: 171, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRWalking4
+  rotate: false
+  xy: 205, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRDown2
+  rotate: false
+  xy: 239, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRKick2
+  rotate: false
+  xy: 273, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRDown1
+  rotate: false
+  xy: 307, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRChop2
+  rotate: false
+  xy: 341, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRChop1
+  rotate: false
+  xy: 375, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRWalking2
+  rotate: false
+  xy: 409, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+PlayerRChop3
+  rotate: false
+  xy: 443, 19
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tileset
+  rotate: false
+  xy: 1, 1
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+ShootingR3
+  rotate: false
+  xy: 477, 35
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ShootingR4
+  rotate: false
+  xy: 495, 35
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ShootingR1
+  rotate: false
+  xy: 495, 35
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ShooterR
+  rotate: false
+  xy: 35, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+BulletR2
+  rotate: false
+  xy: 53, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+RunnerR
+  rotate: false
+  xy: 71, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+ShootingR2
+  rotate: false
+  xy: 89, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+BulletR1
+  rotate: false
+  xy: 107, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1

@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Resources {
 	//public static final Texture walkFrames;
-	
-	public static final Texture test = new Texture("data/testPicture.gif");
-	
-	public static final TextureRegion[] regions = TextureRegion.split(test, 16, 16)[0];
+
 	
 	public static TextureRegion[][] tiles;
 	
@@ -29,7 +26,7 @@ public class Resources {
 	public static void load() {
 		TextureAtlas atlas;
 		
-		atlas = new TextureAtlas("data/sprites.atlas");
+		atlas = new TextureAtlas("data/sprites.pack");
 		
 		Texture tileset = new Texture("data/tileset.png");
 		

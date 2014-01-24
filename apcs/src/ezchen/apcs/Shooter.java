@@ -13,7 +13,7 @@ public class Shooter extends Enemy {
 	private float reloadTime = 5; /* edit */
 	
 	public Shooter(){
-		shooting = new Animation(.4f, Resources.shooterShootFrames);
+		shooting = new Animation(.2f, Resources.shooterShootFrames);
 		shooting.setPlayMode(Animation.NORMAL);
 		velocity = new Vector2(3f, 0); /* edit */
 		facesRight = (velocity.x > 0);
@@ -23,10 +23,10 @@ public class Shooter extends Enemy {
 	
 	public void update(float deltaTime){
 		velocity.scl(deltaTime);
-		if(seesPlayer() && sinceShot > reloadTime) {
+		if(!seesPlayer() && sinceShot > reloadTime) {
 			System.out.println("shoot" + (facesRight? "right" : "left"));
 			int direction = (facesRight? 1 : -1);
-			world.getBullets().add(new Bullet(-direction, position.x, position.y + .5f, world.getBullets().size(), world));
+			world.getBullets().add(new Bullet(-direction, position.x, position.y + .2f, world.getBullets().size(), world));
 			sinceShot = 0;
 			state = State.Shooting;
 		}

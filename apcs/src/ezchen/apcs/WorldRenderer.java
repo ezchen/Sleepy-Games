@@ -68,6 +68,7 @@ public class WorldRenderer {
 		spriteBatch.end();
 		spriteBatch.begin();
 		font.setScale(.5f);
+		font.setUseIntegerPositions(false);
 		font.drawMultiLine(spriteBatch, "" + world.getScore(), viewBounds.x, viewBounds.y);
 		spriteBatch.end();
 		//debug();
