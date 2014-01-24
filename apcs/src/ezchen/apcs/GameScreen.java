@@ -42,6 +42,8 @@ public class GameScreen extends InputAdapter implements Screen {
 		
 		world = new World((int)(camera.viewportWidth * 3/2f), game);
 		
+		spriteBatch = new SpriteBatch();
+		
 		renderer = new WorldRenderer(world);
 		renderer.setView(camera);
 		
@@ -65,6 +67,7 @@ public class GameScreen extends InputAdapter implements Screen {
 		renderer.setView(camera);
 		renderer.render();
 		
+
 	}
 
 	@Override
