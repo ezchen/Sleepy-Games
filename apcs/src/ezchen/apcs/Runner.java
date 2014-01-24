@@ -6,18 +6,25 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Runner extends Enemy {
 	private TextureRegion texture = Resources.runnerFrames[0];
+	private float WALK_SPEED = 1f;
+	private float RUN_SPEED = 4f;
+	private boolean isRunning = false;
 	public Runner(){
-		MAX_VELOCITY = 1f; /* edit */
-		velocity = new Vector2(1f, 0);
+		velocity = new Vector2(WALK_SPEED, 0);
 		DIMENSION.x = 16f;
 		DIMENSION.y = 16f;
 	}
 	
 	@Override
 	public void update(float deltaTime){
+		if (!isRunning && seesPlayer()) {
+			isRunning = true;
+		}
+		velocity.x = (isRunning? RUN_SPEED : WALK_SPEED) * Math.signum(velocity.x);
 		velocity.scl(deltaTime);
 		if (isProblem(deltaTime)) {
 			velocity.x *= -1;
+			isRunning = false;
 		}
 		
 		position.x += velocity.x;
