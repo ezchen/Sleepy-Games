@@ -10,10 +10,16 @@ public class Floor {
 	//height in tiles
 	private int HEIGHT;
 	
+	//holds all the tile in the floor
 	private Tile[][] tiles;
 	
+	// a vector with the position, x and y
 	protected Vector2 position;
 	
+	/*
+	 * create a floor with width * height tiles
+	 * at position yPos
+	 */
 	public Floor(int width, int height, int yPos) {
 		WIDTH = width;
 		HEIGHT = height;
@@ -22,7 +28,10 @@ public class Floor {
 		position = new Vector2(0, yPos);
 		generate();
 	}
-	
+	/*
+	 * create a floor with width * height tiles
+	 * at position position
+	 */
 	public Floor(int width, int height, Vector2 position) {
 		this.WIDTH = width;
 		this.HEIGHT = height;
@@ -32,11 +41,17 @@ public class Floor {
 		generate();
 	}
 	
+	/*
+	 * makes the level
+	 */
 	public void generate() {
 		makeWalls();
 		makeFloor();
 	}
 	
+	/*
+	 * makes the walls for the floor
+	 */
 	private void makeWalls() {
 		for (int r = 0; r < tiles.length; r++) {
 			setTile(r, (int) position.x, new Tile(true, new Vector2(position.x, position.y - r), 1));
@@ -46,6 +61,9 @@ public class Floor {
 		}
 	}
 	
+	/*
+	 * makes the floor for the floor
+	 */
 	private void makeFloor() {
 		int r = tiles.length-1;
 		for (int c = 0; c < tiles[r].length; c++) {

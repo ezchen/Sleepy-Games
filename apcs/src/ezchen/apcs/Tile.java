@@ -23,7 +23,9 @@ public class Tile {
 	//tile is 1 unit in the world
 	private int size = 1;
 	
-	
+	/*
+	 * Vector2 is a vector. (holds x and y. has a lot of useful methods)
+	 */
 	public Tile(boolean blocked, Vector2 position, int tileNum) {
 		BLOCKED = blocked;
 		this.position = position;

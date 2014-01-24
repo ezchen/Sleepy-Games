@@ -1,5 +1,8 @@
 package ezchen.apcs;
 
+/*
+ * class will move around and shoot if it sees the player
+ */
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

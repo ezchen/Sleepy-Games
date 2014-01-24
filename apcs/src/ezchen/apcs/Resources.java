@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Resources {
-	//public static final Texture walkFrames;
 
-	
+	/*
+	 * a region of a texture. Holds an image basically.
+	 * This is an array of these regions
+	 */
 	public static TextureRegion[][] tiles;
 	
 	public static TextureRegion[] walkFrames;
@@ -31,6 +33,12 @@ public class Resources {
 	public static Sound shoot;
 	
 	public static void load() {
+		/*
+		 * texture atlas is a tool in libgdx to make the binding of images
+		 * more efficient. Instead of loading each image separately, a texture atlas
+		 * loads all the image and binds them all at once. We then hold a reference to all
+		 * the textures we need so we only have to load each texture once at the beginning of the game.
+		 */
 		TextureAtlas atlas;
 		
 		atlas = new TextureAtlas("data/sprites.pack");
