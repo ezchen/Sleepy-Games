@@ -10,11 +10,15 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Shooter extends Enemy {
 	
+	// for animation
 	private Animation shooting;
 	private TextureRegion moving = Resources.shooterWalkFrames[0];
-	private float sinceShot = 0;
-	private float reloadTime = 5; /* edit */
 	
+	// keeping track of shots
+	private float sinceShot = 0;
+	private float reloadTime = 3;
+	
+	// constructor
 	public Shooter(){
 		shooting = new Animation(.2f, Resources.shooterShootFrames);
 		shooting.setPlayMode(Animation.NORMAL);
@@ -24,24 +28,36 @@ public class Shooter extends Enemy {
 		state = State.Walking;
 	}
 	
+	// updates velocity
 	public void update(float deltaTime){
+		
+		// velocity becomes change in position
 		velocity.scl(deltaTime);
+		
+		// if shooting is necessary and possible
 		if(!seesPlayer() && sinceShot > reloadTime) {
 			System.out.println("shoot" + (facesRight? "right" : "left"));
 			int direction = (facesRight? 1 : -1);
-			world.getBullets().add(new Bullet(-direction, position.x, position.y + .5f, world.getBullets().size(), world));
+			
+			// shoots by creating Bullet
+			world.getBullets().add(new Bullet(-direction, position.x, position.y + .5f, world));
 			sinceShot = 0;
 			state = State.Shooting;
 		}
+		
+		// collision -> switch directions
 		if(isProblem(deltaTime)) {
 			velocity.x = -velocity.x;
 			facesRight = !facesRight;
 		}
+		
+		// if not shooting, walk
 		if (shooting.isAnimationFinished(stateTime)) {
 			stateTime = 0;
 			state = State.Walking;
 		}
 		
+		// increment position
 		position.x += velocity.x;
 		bounds.x = position.x;
 		
@@ -50,6 +66,7 @@ public class Shooter extends Enemy {
 		sinceShot += deltaTime;
 	}
 
+	// draw the Shooter
 	@Override
 	public void render(SpriteBatch batch) {
 		TextureRegion frame = moving;
