@@ -37,7 +37,7 @@ public abstract class Enemy extends Entity {
 		float etop = position.y + 1;
 		float pbottom = player.position.y;
 		float ptop = player.position.y + player.getBounds().width;
-		return (facesRight ^ (player.position.x - position.x > 0))
+		return (!(facesRight ^ (player.position.x > position.x)))
 				&&((etop >= ptop && ebottom <= ptop)
 				|| (etop <= ptop && ebottom >= pbottom)
 				|| (etop >= pbottom && ebottom <= pbottom));

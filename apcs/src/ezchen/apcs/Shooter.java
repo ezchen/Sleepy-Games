@@ -15,7 +15,8 @@ public class Shooter extends Enemy {
 	public Shooter(){
 		shooting = new Animation(.4f, Resources.shooterShootFrames);
 		shooting.setPlayMode(Animation.NORMAL);
-		velocity = new Vector2(1f, 0); /* edit */
+		velocity = new Vector2(3f, 0); /* edit */
+		facesRight = (velocity.x > 0);
 		stateTime = 0;
 		state = State.Walking;
 	}
@@ -23,9 +24,9 @@ public class Shooter extends Enemy {
 	public void update(float deltaTime){
 		velocity.scl(deltaTime);
 		if(seesPlayer() && sinceShot > reloadTime) {
-			System.out.println("shoot");
-			int direction = (facesRight) ? -1 : 1;
-			world.getBullets().add(new Bullet(direction, position.x, position.y + .5f, world.getBullets().size(), world));
+			System.out.println("shoot" + (facesRight? "right" : "left"));
+			int direction = (facesRight? 1 : -1);
+			world.getBullets().add(new Bullet(-direction, position.x, position.y + .5f, world.getBullets().size(), world));
 			sinceShot = 0;
 			state = State.Shooting;
 		}

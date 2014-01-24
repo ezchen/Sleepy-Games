@@ -40,19 +40,8 @@ public class Player extends Entity {
 	private float sinceKick = 0;
 	
 	private enum AttackState {
-		Chopping(1f),
-		Kicking(1f),
-		Shooting(1f);
-		
-		private float attackTime;
-		
-		AttackState(float attackTime) {
-			this.attackTime = attackTime;
-		}
-		
-		public float getAttackTime() {
-			return this.attackTime;
-		}
+		Chopping,
+		Kicking;
 	}
 	
 	AttackState attackState;
@@ -177,11 +166,15 @@ public class Player extends Entity {
 		//bottom collisions
 		a = collisionTilesY(floor);
 		testBounds.y += velocity.y;
+		boolean groundedBefore = grounded;
 		grounded = false;
 		for (Tile t : a) {
 			if (t != null) {
 				if (testBounds.overlaps(t.getBounds())) {
 					grounded = true;
+					isKicking = false;
+					if(attackState == AttackState.Kicking)
+						attackState = null;
 					canDoubleJump = true;
 					position.y = t.getBounds().y + t.getBounds().height;
 					velocity.y = 0;
@@ -199,7 +192,7 @@ public class Player extends Entity {
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
 			if (attackState != null) {
-				if (attackState == AttackState.Chopping) {
+				if (attackState == AttackState.Chopping || attackState == AttackState.Kicking) {
 					float x = (facesRight) ? position.x + (DIMENSION.x/16f)/2 : position.x - (DIMENSION.x/16f)/2;
 					attackBounds.set(x, position.y, 1f, 1f);
 					if (e.getBounds().overlaps(attackBounds)) {
@@ -227,9 +220,8 @@ public class Player extends Entity {
 	public void updateVelocity(float deltaTime) {
 		// jump
 		sinceKick += deltaTime;
-		isKicking = (sinceKick < MAX_KICKTIME);
+		isKicking = isKicking && (sinceKick < MAX_KICKTIME);
 		if (upPressed && !isKicking) {
-			// allows various heights when jumping
 			if (grounded) {
 				velocity.y = JUMP_VELOCITY;
 				state = State.Jumping;
@@ -259,11 +251,10 @@ public class Player extends Entity {
 				facesRight = true;
 			}
 		}
-		if (lPressed) {
+		if (lPressed && !grounded) {
 			attackState = AttackState.Kicking;
-			velocity.x = Math.signum(velocity.x)*KICK_SPEED;
-			if(!grounded)
-				velocity.y = -KICK_SPEED;
+			velocity.x = (facesRight? 1 : -1) * KICK_SPEED;
+			velocity.y = -KICK_SPEED;
 			sinceKick = 0;
 		} else if (kPressed) {
 			attackState = AttackState.Chopping;
