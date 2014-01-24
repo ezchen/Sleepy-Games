@@ -46,6 +46,7 @@ public class World {
 			addFloor();
 			score += 100;
 			System.out.println("adding floor");
+			Resources.newFloor.play();
 		}
 		
 		player.update(deltaTime);

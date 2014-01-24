@@ -1,5 +1,7 @@
 package ezchen.apcs;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,6 +24,11 @@ public class Resources {
 	public static TextureRegion[] shooterShootFrames;
 	
 	public static TextureRegion[] bulletFrames;
+	
+	
+	public static Sound newFloor;
+	public static Sound chop;
+	public static Sound shoot;
 	
 	public static void load() {
 		TextureAtlas atlas;
@@ -68,7 +75,7 @@ public class Resources {
 		
 		shooterShootFrames = new TextureRegion[4];
 		for (int i = 0; i < shooterShootFrames.length; i++) {
-			shooterShootFrames[i] = atlas.findRegion("ShootingL" + (i+1));
+			shooterShootFrames[i] = atlas.findRegion("ShootingR" + (i+1));
 		}
 		
 		// Bullets
@@ -76,5 +83,7 @@ public class Resources {
 		for (int i = 0; i < bulletFrames.length; i++) {
 			bulletFrames[i] = atlas.findRegion("BulletR" + (i+1));
 		}
+		
+		newFloor = Gdx.audio.newSound(Gdx.files.internal("data/sounds/chop.mp3"));
 	}
 }

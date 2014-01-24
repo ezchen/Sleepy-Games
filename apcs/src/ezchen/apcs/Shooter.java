@@ -26,7 +26,7 @@ public class Shooter extends Enemy {
 		if(!seesPlayer() && sinceShot > reloadTime) {
 			System.out.println("shoot" + (facesRight? "right" : "left"));
 			int direction = (facesRight? 1 : -1);
-			world.getBullets().add(new Bullet(-direction, position.x, position.y + .2f, world.getBullets().size(), world));
+			world.getBullets().add(new Bullet(-direction, position.x, position.y + .5f, world.getBullets().size(), world));
 			sinceShot = 0;
 			state = State.Shooting;
 		}
@@ -56,9 +56,10 @@ public class Shooter extends Enemy {
 		} else {
 			frame = moving;
 		}
+		System.out.println(frame == null);
 		
 		if (frame != null) {
-			if (facesRight) {
+			if (!facesRight) {
 				batch.draw(frame, position.x, position.y, DIMENSION.x/16f, DIMENSION.y/16f);
 			} else {
 				batch.draw(frame, position.x + bounds.width, position.y, -DIMENSION.x/16f, DIMENSION.y/16f);
